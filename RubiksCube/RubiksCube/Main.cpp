@@ -1,5 +1,5 @@
-
-#include <GL/glut.h>
+#include <stdlib.h>
+#include <glut.h>
 
 #include <iostream>
 #include <fstream>
@@ -8,45 +8,13 @@
 
 #include <math.h>
 
+#include "3DCube.h"
+
 using namespace std;
 
 float red = 0.0;
 float green = 0.0;
 float blue = 1.0;
-
-
-GLfloat vertices[] = {
-	0, 0, 1, 1, 1, 1,
-	1, 0, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1,
-	0, 1, 1, 1, 1, 1,
-
-	0, 0, 1, 1, 0, 0,
-	0, 1, 1, 1, 0, 0,
-	0, 1, 0, 1, 0, 0,
-	0, 0, 0, 1, 0, 0,
-
-	0, 0, 1, 0, 0, 0,
-	1, 0, 1, 0, 0, 0,
-	1, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0,
-
-	0, 1, 1, 0, 1, 0,
-	1, 1, 1, 0, 1, 0,
-	1, 1, 0, 0, 1, 0,
-	0, 1, 0, 0, 1, 0,
-
-	0, 1, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0,
-	1, 0, 0, 0, 0, 0,
-	1, 1, 0, 0, 0, 0,
-
-	1, 1, 0, 0, 0, 0,
-	1, 1, 1, 0, 0, 0,
-	1, 0, 1, 0, 0, 0,
-	1, 0, 0, 0, 0, 0
-};
-
 
 /*camera vertical position */
 GLdouble verticalPos = 0.0;
@@ -93,25 +61,10 @@ void display()
 	glTranslatef(0.0f, 0.0f, 0.0f);
 
 	glRotatef(eyeRotation, 0.0f, 1.0f, 0.0f);
+    
+    drawCubes();
 
-	glEnable(GL_DEPTH_TEST);
-
-	glEnableClientState(GL_COLOR_ARRAY);
-	glEnableClientState(GL_VERTEX_ARRAY);
-
-	glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), vertices);
-	glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), vertices + 3);
-
-	glDrawArrays(GL_QUADS, 0, 24);
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-
-	glFlush();
-
-	glutSwapBuffers();
-
-
+    glutSwapBuffers();
 }
 
 void initialize()
@@ -127,7 +80,7 @@ void initialize()
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);						// specify implementation-specific hints
-	glClearColor(0.5, 0.5, 0.5, 1.0);											// specify clear values for the color buffers			
+	glClearColor(0.17, 0.24, 0.31, 1.0);											// specify clear values for the color buffers			
 	glLineWidth(5);
 }
 
@@ -213,11 +166,6 @@ void specialKeys(int key, int x, int y) {
 
 int main(int argc, char **argv)
 {
-	//check command line inputs
-	if (argc != 2) {
-		cout << "Usage viewer controlFile" << endl;
-		exit(1);
-	}
 	//read control file
 	//readControl(argv[1]);
 	//loadObj("stanfordModels/F16.obj");
