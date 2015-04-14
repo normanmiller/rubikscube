@@ -44,7 +44,7 @@ void drawCubes()
 
     glDrawArrays(GL_QUADS, 0, 24);
 
-#pragma endregion [Open to see Vertex and Color pointers]
+#pragma endregion
 
     #pragma region Corner Cubes
 
@@ -73,8 +73,82 @@ void drawCubes()
 
     glDrawArrays(GL_QUADS, 0, 24);
 
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_bottom_FL);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_bottom_FL + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+    
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_bottom_RB);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_bottom_RB + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+
     glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_bottom_LB);
     glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_bottom_LB + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    #pragma endregion
+
+    #pragma region Edge Cubes
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_FU);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_FU + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_FD);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_FD + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_LU);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_LU + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_LD);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_LD + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_BU);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_BU + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_BD);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_BD + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_RU);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_RU + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_RD);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_RD + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_FL);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_FL + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_FR);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_FR + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_LB);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_LB + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_RB);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_RB + 3);
 
     glDrawArrays(GL_QUADS, 0, 24);
 
