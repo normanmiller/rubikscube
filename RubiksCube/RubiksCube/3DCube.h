@@ -10,7 +10,10 @@
 
 void drawCubes();
 
-static GLfloat cube_center[] = {
+#pragma region CENTERS
+
+#pragma region Core Cube
+static GLfloat cube_core[] = {
     //FRONT
     0, 0, 1, 0, 0, 0,
     1, 0, 1, 0, 0, 0,
@@ -42,7 +45,9 @@ static GLfloat cube_center[] = {
     1, 0, 1, 0, 0, 0,
     1, 0, 0, 0, 0, 0
 };
+#pragma endregion Internal core of the cube
 
+#pragma region Center Front
 static GLfloat cube_center_front[] = {
     0, 0, 3, 1, 0.5, 0,
     1, 0, 3, 1, 0.5, 0,
@@ -74,7 +79,9 @@ static GLfloat cube_center_front[] = {
     1, 0, 3, 0, 0, 0,
     1, 0, 2, 0, 0, 0
 };
+#pragma endregion F=Orange
 
+#pragma region Center Back
 static GLfloat cube_center_back[] = {
     0, 0, -2, 1, 0, 0,
     1, 0, -2, 1, 0, 0,
@@ -106,9 +113,10 @@ static GLfloat cube_center_back[] = {
     1, 0, -2, 0, 0, 0,
     1, 0, -1, 0, 0, 0
 };
+#pragma endregion B=Red
 
+#pragma region Center Up
 static GLfloat cube_center_up[] = {
-    
     0, 2, 1, 0, 0, 0,
     1, 2, 1, 0, 0, 0,
     1, 3, 1, 0, 0, 0,
@@ -123,7 +131,7 @@ static GLfloat cube_center_up[] = {
     1, 2, 1, 0, 0, 0,
     1, 2, 0, 0, 0, 0,
     0, 2, 0, 0, 0, 0,
-    //UP - Blue
+    
     0, 3, 1, 0.1, 0.1, 0.66,
     1, 3, 1, 0.1, 0.1, 0.66,
     1, 3, 0, 0.1, 0.1, 0.66,
@@ -139,9 +147,10 @@ static GLfloat cube_center_up[] = {
     1, 2, 1, 0, 0, 0,
     1, 2, 0, 0, 0, 0
 };
+#pragma endregion U=Blue
 
+#pragma region Center Down
 static GLfloat cube_center_down[] = {
-    
     0, -1, 1, 0, 0, 0,
     1, -1, 1, 0, 0, 0,
     1, -2, 1, 0, 0, 0,
@@ -156,7 +165,7 @@ static GLfloat cube_center_down[] = {
     1, -1, 1, 0, 0, 0,
     1, -1, 0, 0, 0, 0,
     0, -1, 0, 0, 0, 0,
-    //DOWN - Green
+    
     0, -2, 1, 0.1, 0.66, 0.1,
     1, -2, 1, 0.1, 0.66, 0.1,
     1, -2, 0, 0.1, 0.66, 0.1,
@@ -172,41 +181,82 @@ static GLfloat cube_center_down[] = {
     1, -1, 1, 0, 0, 0,
     1, -1, 0, 0, 0, 0
 };
+#pragma endregion D=Green
 
+#pragma region Center Right
 static GLfloat cube_center_right[] = {
-    //FRONT
     2, 0, 1, 0, 0, 0,
     3, 0, 1, 0, 0, 0,
     3, 1, 1, 0, 0, 0,
     2, 1, 1, 0, 0, 0,
-    //LEFT
+    
     2, 0, 1, 0, 0, 0,
     2, 1, 1, 0, 0, 0,
     2, 1, 0, 0, 0, 0,
     2, 0, 0, 0, 0, 0,
-    //DOWN
+    
     2, 0, 1, 0, 0, 0,
     3, 0, 1, 0, 0, 0,
     3, 0, 0, 0, 0, 0,
     2, 0, 0, 0, 0, 0,
-    //UP
+    
     2, 1, 1, 0, 0, 0,
     3, 1, 1, 0, 0, 0,
     3, 1, 0, 0, 0, 0,
     2, 1, 0, 0, 0, 0,
-    //BACK
+    
     2, 1, 0, 0, 0, 0,
     2, 0, 0, 0, 0, 0,
     3, 0, 0, 0, 0, 0,
     3, 1, 0, 0, 0, 0,
-    //RIGHT - White
+    
     3, 1, 0, 1, 1, 1,
     3, 1, 1, 1, 1, 1,
     3, 0, 1, 1, 1, 1,
     3, 0, 0, 1, 1, 1
 };
+#pragma endregion R=White
 
-static GLfloat cube_1[] = {
+#pragma region Center Left
+static GLfloat cube_center_left[] = {
+    -1, 0, 1, 0, 0, 0,
+    -2, 0, 1, 0, 0, 0,
+    -2, 1, 1, 0, 0, 0,
+    -1, 1, 1, 0, 0, 0,
+    
+    -1, 0, 1, 0, 0, 0,
+    -1, 1, 1, 0, 0, 0,
+    -1, 1, 0, 0, 0, 0,
+    -1, 0, 0, 0, 0, 0,
+    
+    -1, 0, 1, 0, 0, 0,
+    -2, 0, 1, 0, 0, 0,
+    -2, 0, 0, 0, 0, 0,
+    -1, 0, 0, 0, 0, 0,
+    
+    -1, 1, 1, 0, 0, 0,
+    -2, 1, 1, 0, 0, 0,
+    -2, 1, 0, 0, 0, 0,
+    -1, 1, 0, 0, 0, 0,
+    
+    -1, 1, 0, 0, 0, 0,
+    -1, 0, 0, 0, 0, 0,
+    -2, 0, 0, 0, 0, 0,
+    -2, 1, 0, 0, 0, 0,
+    
+    -2, 1, 0, 1, 1, 0,
+    -2, 1, 1, 1, 1, 0,
+    -2, 0, 1, 1, 1, 0,
+    -2, 0, 0, 1, 1, 0
+};
+#pragma endregion L=Yellow
+
+#pragma endregion Expand for Center Cube Vertex Arrays
+
+#pragma region CORNERS
+
+#pragma region Top Corner FR
+static GLfloat cube_corner_top_FR[] = {
     2, 2, 3, 1, 0.5, 0,
     3, 2, 3, 1, 0.5, 0,
     3, 3, 3, 1, 0.5, 0,
@@ -237,8 +287,146 @@ static GLfloat cube_1[] = {
     3, 2, 3, 1, 1, 1,
     3, 2, 2, 1, 1, 1
 };
+#pragma endregion F=Orange; R=White; U=Blue
 
-static GLfloat cube_2[] = {
+#pragma region Top Corner FL
+static GLfloat cube_corner_top_FL[] = {
+    -1, 2, 3, 1, 0.5, 0,
+    -2, 2, 3, 1, 0.5, 0,
+    -2, 3, 3, 1, 0.5, 0,
+    -1, 3, 3, 1, 0.5, 0,
+
+    -1, 2, 3, 0, 0, 0,
+    -1, 3, 3, 0, 0, 0,
+    -1, 3, 2, 0, 0, 0,
+    -1, 2, 2, 0, 0, 0,
+
+    -1, 2, 3, 0, 0, 0,
+    -2, 2, 3, 0, 0, 0,
+    -2, 2, 2, 0, 0, 0,
+    -1, 2, 2, 0, 0, 0,
+
+    -1, 3, 3, 0.1, 0.1, 0.66,
+    -2, 3, 3, 0.1, 0.1, 0.66,
+    -2, 3, 2, 0.1, 0.1, 0.66,
+    -1, 3, 2, 0.1, 0.1, 0.66,
+
+    -1, 3, 2, 0, 0, 0,
+    -1, 2, 2, 0, 0, 0,
+    -2, 2, 2, 0, 0, 0,
+    -2, 3, 2, 0, 0, 0,
+
+    -2, 3, 2, 1, 1, 0,
+    -2, 3, 3, 1, 1, 0,
+    -2, 2, 3, 1, 1, 0,
+    -2, 2, 2, 1, 1, 0
+};
+#pragma endregion F=Orange; L=Yellow; U=Blue
+
+#pragma region Top Corner RB
+static GLfloat cube_corner_top_RB[] = {
+    2, 2, -2, 1, 0, 0,
+    3, 2, -2, 1, 0, 0,
+    3, 3, -2, 1, 0, 0,
+    2, 3, -2, 1, 0, 0,
+
+    2, 2, -2, 0, 0, 0,
+    2, 3, -2, 0, 0, 0,
+    2, 3, -1, 0, 0, 0,
+    2, 2, -1, 0, 0, 0,
+
+    2, 2, -2, 0, 0, 0,
+    3, 2, -2, 0, 0, 0,
+    3, 2, -1, 0, 0, 0,
+    2, 2, -1, 0, 0, 0,
+
+    2, 3, -2, 0.1, 0.1, 0.66,
+    3, 3, -2, 0.1, 0.1, 0.66,
+    3, 3, -1, 0.1, 0.1, 0.66,
+    2, 3, -1, 0.1, 0.1, 0.66,
+
+    2, 3, -1, 0, 0, 0,
+    2, 2, -1, 0, 0, 0,
+    3, 2, -1, 0, 0, 0,
+    3, 3, -1, 0, 0, 0,
+
+    3, 3, -1, 1, 1, 1,
+    3, 3, -2, 1, 1, 1,
+    3, 2, -2, 1, 1, 1,
+    3, 2, -1, 1, 1, 1
+};
+#pragma endregion R=White; B=Red; U=Blue
+
+#pragma region Top Corner LB
+static GLfloat cube_corner_top_LB[] = {
+    -1, 2, -2, 1, 0, 0,
+    -2, 2, -2, 1, 0, 0,
+    -2, 3, -2, 1, 0, 0,
+    -1, 3, -2, 1, 0, 0,
+
+    -1, 2, -2, 0, 0, 0,
+    -1, 3, -2, 0, 0, 0,
+    -1, 3, -1, 0, 0, 0,
+    -1, 2, -1, 0, 0, 0,
+
+    -1, 2, -2, 0, 0, 0,
+    -2, 2, -2, 0, 0, 0,
+    -2, 2, -1, 0, 0, 0,
+    -1, 2, -1, 0, 0, 0,
+
+    -1, 3, -2, 0.1, 0.1, 0.66,
+    -2, 3, -2, 0.1, 0.1, 0.66,
+    -2, 3, -1, 0.1, 0.1, 0.66,
+    -1, 3, -1, 0.1, 0.1, 0.66,
+
+    -1, 3, -1, 0, 0, 0,
+    -1, 2, -1, 0, 0, 0,
+    -2, 2, -1, 0, 0, 0,
+    -2, 3, -1, 0, 0, 0,
+
+    -2, 3, -1, 1, 1, 0,
+    -2, 3, -2, 1, 1, 0,
+    -2, 2, -2, 1, 1, 0,
+    -2, 2, -1, 1, 1, 0
+};
+#pragma endregion L=Yellow; B=Red; U=Blue
+
+#pragma region Bottom Corner FR
+static GLfloat cube_corner_bottom_FR[] = {
+    2, -1, 3, 1, 0.5, 0,
+    3, -1, 3, 1, 0.5, 0,
+    3, -2, 3, 1, 0.5, 0,
+    2, -2, 3, 1, 0.5, 0,
+
+    2, -1, 3, 0, 0, 0,
+    2, -2, 3, 0, 0, 0,
+    2, -2, 2, 0, 0, 0,
+    2, -1, 2, 0, 0, 0,
+
+    2, -1, 3, 0, 0, 0,
+    3, -1, 3, 0, 0, 0,
+    3, -1, 2, 0, 0, 0,
+    2, -1, 2, 0, 0, 0,
+
+    2, -2, 3, 0.1, 0.66, 0.1,
+    3, -2, 3, 0.1, 0.66, 0.1,
+    3, -2, 2, 0.1, 0.66, 0.1,
+    2, -2, 2, 0.1, 0.66, 0.1,
+
+    2, -2, 2, 0, 0, 0,
+    2, -1, 2, 0, 0, 0,
+    3, -1, 2, 0, 0, 0,
+    3, -2, 2, 0, 0, 0,
+
+    3, -2, 2, 1, 1, 1,
+    3, -2, 3, 1, 1, 1,
+    3, -1, 3, 1, 1, 1,
+    3, -1, 2, 1, 1, 1
+};
+#pragma endregion F=Orange; R=White; D=Green
+
+#pragma region Bottom Corner LB
+static GLfloat cube_corner_bottom_LB[] = {
     -1, -1, -2, 1, 0, 0,
     -2, -1, -2, 1, 0, 0,
     -2, -2, -2, 1, 0, 0,
@@ -269,3 +457,6 @@ static GLfloat cube_2[] = {
     -2, -1, -2, 1, 1, 0,
     -2, -1, -1, 1, 1, 0
 };
+#pragma endregion L=Yellow; B=Red; D=Green
+
+#pragma endregion Expand for Corner Cube Vertex Arrays

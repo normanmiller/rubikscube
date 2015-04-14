@@ -16,6 +16,9 @@ float red = 0.0;
 float green = 0.0;
 float blue = 1.0;
 
+int _screenWidth = 800;
+int _screenHeight = 600;
+
 /*camera vertical position */
 GLdouble verticalPos = 0.0;
 GLfloat focalPoint = 0.0;
@@ -62,7 +65,8 @@ void display()
 
 	glRotatef(eyeRotation, 0.0f, 1.0f, 0.0f);
     
-    drawCubes();
+
+    drawCubes();    //Function that renders the cubix
 
     glutSwapBuffers();
 }
@@ -70,7 +74,7 @@ void display()
 void initialize()
 {
 	glMatrixMode(GL_PROJECTION);												// select projection matrix
-	glViewport(0, 0, 640, 640);									// set the viewport											
+	glViewport(0, 0, _screenWidth, _screenHeight);									// set the viewport											
 	glLoadIdentity();															// reset projection matrix
 	gluPerspective(45.0f, 1.0f, 0.1f, 10.0f);		// set up a perspective projection matrix
 	glMatrixMode(GL_MODELVIEW);													// specify which matrix is the current matrix
@@ -173,8 +177,8 @@ int main(int argc, char **argv)
 	// initialize and run program
 	glutInit(&argc, argv);                                      // GLUT initialization
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);  // Display Mode
-	glutInitWindowSize(640, 640);					// set window size
-	glutCreateWindow("Viewer");								// create Window
+	glutInitWindowSize(_screenWidth, _screenHeight);					// set window size
+	glutCreateWindow("Rubik's Cube");								// create Window
 	/* handle window re-size event */
 	glutReshapeFunc(reshape_CB);
 

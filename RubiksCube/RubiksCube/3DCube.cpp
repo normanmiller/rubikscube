@@ -7,8 +7,10 @@ void drawCubes()
     glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
 
-    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_center);
-    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_center + 3);
+    #pragma region Center Cubes
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_core);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_core + 3);
 
     glDrawArrays(GL_QUADS, 0, 24);
 
@@ -37,15 +39,46 @@ void drawCubes()
 
     glDrawArrays(GL_QUADS, 0, 24);
 
-    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_1);
-    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_1 + 3);
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_center_left);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_center_left + 3);
 
     glDrawArrays(GL_QUADS, 0, 24);
 
-    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_2);
-    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_2 + 3);
+#pragma endregion [Open to see Vertex and Color pointers]
+
+    #pragma region Corner Cubes
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_FR);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_FR + 3);
 
     glDrawArrays(GL_QUADS, 0, 24);
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_FL);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_FL + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_RB);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_RB + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_LB);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_LB + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_bottom_FR);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_bottom_FR + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_bottom_LB);
+    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_bottom_LB + 3);
+
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    #pragma endregion
 
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_COLOR_ARRAY);
