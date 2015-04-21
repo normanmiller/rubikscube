@@ -15,7 +15,54 @@
 #define POS_LOWER_BOUND 0.65
 #define POS_UPPER_BOUND 1.65
 
-void drawCubes();
+typedef enum Rotation
+{
+    None = 0,
+    Right = 1,
+    iRight = 2,
+    Front = 3,
+    iFront = 4,
+    Left = 5,
+    iLeft = 6,
+    Back = 7,
+    iBack = 8,
+    Down = 9,
+    iDown = 10,
+    Up = 11,
+    iUp = 12,
+};
+
+static float rightAngle = 0.0f;
+static float leftAngle = 0.0f;
+static float frontAngle = 0.0f;
+static float backAngle = 0.0f;
+static float upAngle = 0.0f;
+static float downAngle = 0.0f;
+
+void cubeInteraction(Rotation);
+void drawFront();
+void drawLeft();
+void drawRight();
+void drawBack();
+void drawUp();
+void drawDown();
+
+void drawCoreX(); // Core sector parallel to Up and Down
+void drawCoreY(); // Core sector parallel to Front and Back
+void drawCoreZ(); // Core sector parallel to Left and Right
+
+void rightTurnUpdate();
+void iRightTurnUpdate();
+void leftTurnUpdate();
+void iLeftTurnUpdate();
+void frontTurnUpdate();
+void iFrontTurnUpdate();
+void backTurnUpdate();
+void iBackTurnUpdate();
+void upTurnUpdate();
+void iUpTurnUpdate();
+void downTurnUpdate();
+void iDownTurnUpdate();
 
 #pragma region CENTERS
 

@@ -19,6 +19,8 @@ float blue = 1.0;
 int _screenWidth = 800;
 int _screenHeight = 600;
 
+Rotation _cubeRotation = None;
+
 /*camera vertical position */
 GLdouble verticalPos = 0.0;
 GLfloat focalPoint = 0.0;
@@ -27,7 +29,6 @@ GLdouble gazeRotation = 0.0;
 GLfloat eyeRotation = 0.0;
 GLfloat aspect = 1.0f;
 GLfloat zoomFactor = 1.0f;
-
 
 static void reshape_CB(GLsizei width, GLsizei height)
 {
@@ -65,8 +66,9 @@ void display()
 
 	glRotatef(eyeRotation, 0.0f, 1.0f, 0.0f);
     
+    cubeInteraction(_cubeRotation);    //Function that renders the cubix
 
-    drawCubes();    //Function that renders the cubix
+    _cubeRotation = None;
 
     glutSwapBuffers();
 }
@@ -90,58 +92,87 @@ void initialize()
 
 
 void key(unsigned char key, int x_cord, int y_cord) {
-	//move up view vector
-	if (key == 'c' || key == 'C') {
-
-		verticalPos -= .01;
-
-	}
-
-	if (key == 'v' || key == 'V') {
-
-		verticalPos += .01;
-
-	}
-
-	if (key == 'd' || key == 'D') {
-
-	}
-
-
-	if (key == 'Q' || key == 'q' || key == 27) {
-		exit(0); //hard exit
-	}
-
-	if (key == 'R' || key == 'r') {
-		//reset initial values
-		verticalPos = 0;
-		eyeRotation = 0;
-		gazeRotation = 0;
-		zoomFactor = 1.0;
-	}
-	//solid fill
-	if (key == 's' || key == 'S') {
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	}
-
-	//wireframe
-	if (key == 'w' || key == 'W') {
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	}
-
-
-	if (key == 'x') {
-		//do counterclockwise rotation about gaze vector
-		gazeRotation += 0.0174532925; //+ 1 degree in radians
-
-	}
-	if (key == 'z') {
-		//do counterclockwise rotation about gaze vector
-		gazeRotation -= 0.0174532925;
-
-	}
-
-
+	
+    switch (key)
+    {
+    case 'b':
+        _cubeRotation = iBack;
+        break;
+    case 'B':
+        _cubeRotation = Back;
+        break;
+    case 'c':
+    case 'C':
+        verticalPos -= .1;
+        break;
+    case 'd':
+        _cubeRotation = iDown;
+        break;
+    case 'D':
+        _cubeRotation = Down;
+        break;
+    case 'f':
+        _cubeRotation = iFront;
+        break;
+    case 'F':
+        _cubeRotation = Front;
+        break;
+    case 'l':
+        _cubeRotation = iLeft;
+        break;
+    case 'L':
+        _cubeRotation = Left;
+        break;
+    case 'q':
+    case 'Q':
+    case 27:
+        exit(0);
+        break;
+    case 'r':
+        _cubeRotation = iRight;
+        break;
+    case 'R':
+        _cubeRotation = Right;
+        break;
+    case 's':
+    case 'S':
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        break;
+    case 't':
+    case 'T':
+        verticalPos = 0;
+        eyeRotation = 0;
+        gazeRotation = 0;
+        zoomFactor = 1.0;
+        break;
+    case 'u':
+        _cubeRotation = iUp;
+        break;
+    case 'U':
+        _cubeRotation = Up;
+        break;
+    case 'v':
+    case 'V':
+        verticalPos += .1;
+        break;
+    case 'w':
+    case 'W':
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        break;
+    case 'x':
+    case 'X':
+        //do counterclockwise rotation about gaze vector
+        gazeRotation += 0.0174532925; //+ 1 degree in radians
+        break;
+    case 'z':
+    case 'Z':
+        //do counterclockwise rotation about gaze vector
+        gazeRotation -= 0.0174532925;
+        break;
+    default:
+        _cubeRotation = None;
+        break;
+    }
 
 	glutPostRedisplay();
 }
