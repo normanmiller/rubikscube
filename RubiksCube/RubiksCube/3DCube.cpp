@@ -1,20 +1,18 @@
 #include "3DCube.h"
 
-void cubeInteraction(Rotation cubeRotation)
+void cubeInteraction(std::vector<Rotation> rotationVector)
 {
     glClear(GL_COLOR_BUFFER_BIT);
-
-    /*glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glPushMatrix();*/
 
     glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
 
-    switch (cubeRotation)
+    for (std::vector<Rotation>::iterator it = rotationVector.begin(); it < rotationVector.end(); ++it)
     {
+        switch (*it)
+        {
         case Right:
-            rightAngle += 90.0f;
+            rightAngle -= 90.0f;
             glRotatef(rightAngle, 1, 0, 0);
             drawRight();
             glRotatef(-rightAngle, 1, 0, 0);
@@ -22,7 +20,7 @@ void cubeInteraction(Rotation cubeRotation)
             drawLeft();
             break;
         case iRight:
-            rightAngle -= 90.0f;
+            rightAngle += 90.0f;
             glRotatef(rightAngle, 1, 0, 0);
             drawRight();
             glRotatef(-rightAngle, 1, 0, 0);
@@ -46,14 +44,6 @@ void cubeInteraction(Rotation cubeRotation)
             drawRight();
             break;
         case Front:
-            frontAngle += 90.0f;
-            glRotatef(frontAngle, 0, 0, 1);
-            drawFront();
-            glRotatef(-frontAngle, 0, 0, 1);
-            drawCoreY();
-            drawBack();
-            break;
-        case iFront:
             frontAngle -= 90.0f;
             glRotatef(frontAngle, 0, 0, 1);
             drawFront();
@@ -61,15 +51,15 @@ void cubeInteraction(Rotation cubeRotation)
             drawCoreY();
             drawBack();
             break;
-        case Back:
-            backAngle += 90.0f;
-            glRotatef(backAngle, 0, 0, 1);
-            drawBack();
-            glRotatef(-backAngle, 0, 0, 1);
-            drawCoreY();
+        case iFront:
+            frontAngle += 90.0f;
+            glRotatef(frontAngle, 0, 0, 1);
             drawFront();
+            glRotatef(-frontAngle, 0, 0, 1);
+            drawCoreY();
+            drawBack();
             break;
-        case iBack:
+        case Back:
             backAngle -= 90.0f;
             glRotatef(backAngle, 0, 0, 1);
             drawBack();
@@ -77,15 +67,15 @@ void cubeInteraction(Rotation cubeRotation)
             drawCoreY();
             drawFront();
             break;
-        case Up:
-            upAngle += 90.0f;
-            glRotatef(upAngle, 0, 1, 0);
-            drawUp();
-            glRotatef(-upAngle, 0, 1, 0);
-            drawCoreX();
-            drawDown();
+        case iBack:
+            backAngle += 90.0f;
+            glRotatef(backAngle, 0, 0, 1);
+            drawBack();
+            glRotatef(-backAngle, 0, 0, 1);
+            drawCoreY();
+            drawFront();
             break;
-        case iUp:
+        case Up:
             upAngle -= 90.0f;
             glRotatef(upAngle, 0, 1, 0);
             drawUp();
@@ -93,8 +83,16 @@ void cubeInteraction(Rotation cubeRotation)
             drawCoreX();
             drawDown();
             break;
+        case iUp:
+            upAngle += 90.0f;
+            glRotatef(upAngle, 0, 1, 0);
+            drawUp();
+            glRotatef(-upAngle, 0, 1, 0);
+            drawCoreX();
+            drawDown();
+            break;
         case Down:
-            downAngle += 90.0f;
+            downAngle -= 90.0f;
             glRotatef(downAngle, 0, 1, 0);
             drawDown();
             glRotatef(-downAngle, 0, 1, 0);
@@ -102,7 +100,7 @@ void cubeInteraction(Rotation cubeRotation)
             drawUp();
             break;
         case iDown:
-            downAngle -= 90.0f;
+            downAngle += 90.0f;
             glRotatef(downAngle, 0, 1, 0);
             drawDown();
             glRotatef(-downAngle, 0, 1, 0);
@@ -111,10 +109,23 @@ void cubeInteraction(Rotation cubeRotation)
             break;
         case None:
         default:
-            //TODO: Preserve current cube state
+            if (rotationVector.size() == 1)
+            {
+                drawRight();
+                drawCoreZ();
+                drawLeft();
+            }
             break;
+        }
     }
-    
+
+    rightAngle = 0;
+    leftAngle = 0;
+    frontAngle = 0;
+    backAngle = 0;
+    upAngle = 0;
+    downAngle = 0;
+
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_COLOR_ARRAY);
 }
@@ -126,13 +137,13 @@ void drawFront()
 
     glDrawArrays(GL_QUADS, 0, 24);
 
-    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_FR);
-    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_FR + 3);
+    glVertexPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_FR);
+    glColorPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_FR_color);
 
     glDrawArrays(GL_QUADS, 0, 24);
 
-    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_FL);
-    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_FL + 3);
+    glVertexPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_FL);
+    glColorPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_FL_color);
 
     glDrawArrays(GL_QUADS, 0, 24);
 
@@ -174,13 +185,13 @@ void drawLeft()
 
     glDrawArrays(GL_QUADS, 0, 24);
 
-    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_FL);
-    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_FL + 3);
+    glVertexPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_FL);
+    glColorPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_FL_color);
 
     glDrawArrays(GL_QUADS, 0, 24);
 
-    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_LB);
-    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_LB + 3);
+    glVertexPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_LB);
+    glColorPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_LB_color);
 
     glDrawArrays(GL_QUADS, 0, 24);
 
@@ -222,13 +233,13 @@ void drawRight()
 
     glDrawArrays(GL_QUADS, 0, 24);
 
-    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_FR);
-    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_FR + 3);
+    glVertexPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_FR);
+    glColorPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_FR_color);
 
     glDrawArrays(GL_QUADS, 0, 24);
 
-    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_RB);
-    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_RB + 3);
+    glVertexPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_RB);
+    glColorPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_RB_color);
 
     glDrawArrays(GL_QUADS, 0, 24);
 
@@ -237,8 +248,8 @@ void drawRight()
 
     glDrawArrays(GL_QUADS, 0, 24);
 
-    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_bottom_RB);
-    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_bottom_RB + 3);
+    glVertexPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_bottom_RB);
+    glColorPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_bottom_RB_color);
 
     glDrawArrays(GL_QUADS, 0, 24);
 
@@ -270,18 +281,18 @@ void drawBack()
 
     glDrawArrays(GL_QUADS, 0, 24);
 
-    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_RB);
-    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_RB + 3);
+    glVertexPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_RB);
+    glColorPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_RB_color);
 
     glDrawArrays(GL_QUADS, 0, 24);
 
-    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_LB);
-    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_LB + 3);
+    glVertexPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_LB);
+    glColorPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_LB_color);
 
     glDrawArrays(GL_QUADS, 0, 24);
 
-    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_bottom_RB);
-    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_bottom_RB + 3);
+    glVertexPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_bottom_RB);
+    glColorPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_bottom_RB_color);
 
     glDrawArrays(GL_QUADS, 0, 24);
 
@@ -318,23 +329,23 @@ void drawUp()
 
     glDrawArrays(GL_QUADS, 0, 24);
 
-    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_FR);
-    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_FR + 3);
+    glVertexPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_FR);
+    glColorPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_FR_color);
 
     glDrawArrays(GL_QUADS, 0, 24);
 
-    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_FL);
-    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_FL + 3);
+    glVertexPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_FL);
+    glColorPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_FL_color);
 
     glDrawArrays(GL_QUADS, 0, 24);
 
-    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_RB);
-    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_RB + 3);
+    glVertexPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_RB);
+    glColorPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_RB_color);
 
     glDrawArrays(GL_QUADS, 0, 24);
 
-    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_LB);
-    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_top_LB + 3);
+    glVertexPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_LB);
+    glColorPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_top_LB_color);
 
     glDrawArrays(GL_QUADS, 0, 24);
 
@@ -376,8 +387,8 @@ void drawDown()
 
     glDrawArrays(GL_QUADS, 0, 24);
 
-    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_bottom_RB);
-    glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_corner_bottom_RB + 3);
+    glVertexPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_bottom_RB);
+    glColorPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), cube_corner_bottom_RB_color);
 
     glDrawArrays(GL_QUADS, 0, 24);
 
@@ -549,64 +560,4 @@ void drawCoreZ()
     glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube_edge_BD + 3);
 
     glDrawArrays(GL_QUADS, 0, 24);
-}
-
-void rightTurnUpdate()
-{
-    //TODO: Rename cubes according to rotations
-}
-
-void iRightTurnUpdate()
-{
-
-}
-
-void leftTurnUpdate()
-{
-
-}
-
-void iLeftTurnUpdate()
-{
-
-}
-
-void frontTurnUpdate()
-{
-
-}
-
-void iFrontTurnUpdate()
-{
-
-}
-
-void backTurnUpdate()
-{
-
-}
-
-void iBackTurnUpdate()
-{
-
-}
-
-void upTurnUpdate()
-{
-
-}
-
-void iUpTurnUpdate()
-{
-
-}
-
-void downTurnUpdate()
-{
-
-}
-
-void iDownTurnUpdate()
-{
-
 }
