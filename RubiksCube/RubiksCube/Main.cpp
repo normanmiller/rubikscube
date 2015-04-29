@@ -9,6 +9,7 @@
 #include <math.h>
 
 #include "3DCube.h"
+#include "PotentialMethod.h"
 
 using namespace std;
 
@@ -68,8 +69,10 @@ void display()
 
     //if (userRotationVector.size() > 0)
     //{
-    cubeInteraction(userRotationVector);    //Function that renders the cubix
+    //    cubeInteraction(userRotationVector);    //Function that renders the cubix
     //}
+
+    CreateCube();
 
     glutSwapBuffers();
 }
@@ -90,7 +93,7 @@ void initialize()
     glClearColor(0.17, 0.24, 0.31, 1.0);											// specify clear values for the color buffers
     glLineWidth(5);
 
-    //userRotationVector.push_back(None);
+    userRotationVector.push_back(None);
     //algorithmRotationVector.push_back(None);
 }
 
