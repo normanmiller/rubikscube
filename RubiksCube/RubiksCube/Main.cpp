@@ -8,8 +8,7 @@
 
 #include <math.h>
 
-#include "3DCube.h"
-#include "PotentialMethod.h"
+#include "CubeRender.h"
 
 using namespace std;
 
@@ -20,8 +19,7 @@ float blue = 1.0;
 int _screenWidth = 800;
 int _screenHeight = 600;
 
-vector<Rotation> userRotationVector;
-vector<Rotation> algorithmRotationVector;
+Rotation userInputRotation;
 
 /*camera vertical position */
 GLdouble verticalPos = 0.0;
@@ -67,12 +65,8 @@ void display()
 
     glRotatef(eyeRotation, 0.0f, 1.0f, 0.0f);
 
-    //if (userRotationVector.size() > 0)
-    //{
-    //    cubeInteraction(userRotationVector);    //Function that renders the cubix
-    //}
-
-    CreateCube();
+    ApplyRotation(userInputRotation);
+    userInputRotation = None;
 
     glutSwapBuffers();
 }
@@ -93,40 +87,39 @@ void initialize()
     glClearColor(0.17, 0.24, 0.31, 1.0);											// specify clear values for the color buffers
     glLineWidth(5);
 
-    userRotationVector.push_back(None);
-    //algorithmRotationVector.push_back(None);
+    InitializeCube();
 }
 
 void key(unsigned char key, int x_cord, int y_cord) {
     switch (key)
     {
     case 'b':
-        userRotationVector.push_back(iBack);
+        userInputRotation = iBack;
         break;
     case 'B':
-        userRotationVector.push_back(Back);
+        userInputRotation = Back;
         break;
     case 'c':
     case 'C':
         verticalPos -= .1;
         break;
     case 'd':
-        userRotationVector.push_back(iDown);
+        userInputRotation = iDown;
         break;
     case 'D':
-        userRotationVector.push_back(Down);
+        userInputRotation = Down;
         break;
     case 'f':
-        userRotationVector.push_back(iFront);
+        userInputRotation = iFront;
         break;
     case 'F':
-        userRotationVector.push_back(Front);
+        userInputRotation = Front;
         break;
     case 'l':
-        userRotationVector.push_back(iLeft);
+        userInputRotation = iLeft;
         break;
     case 'L':
-        userRotationVector.push_back(Left);
+        userInputRotation = Left;
         break;
     case 'q':
     case 'Q':
@@ -134,10 +127,10 @@ void key(unsigned char key, int x_cord, int y_cord) {
         exit(0);
         break;
     case 'r':
-        userRotationVector.push_back(iRight);
+        userInputRotation = iRight;
         break;
     case 'R':
-        userRotationVector.push_back(Right);
+        userInputRotation = Right;
         break;
     case 's':
     case 'S':
@@ -151,10 +144,10 @@ void key(unsigned char key, int x_cord, int y_cord) {
         zoomFactor = 1.0;
         break;
     case 'u':
-        userRotationVector.push_back(iUp);
+        userInputRotation = iUp;
         break;
     case 'U':
-        userRotationVector.push_back(Up);
+        userInputRotation = Up;
         break;
     case 'v':
     case 'V':
