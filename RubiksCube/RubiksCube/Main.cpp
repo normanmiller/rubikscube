@@ -20,6 +20,8 @@ int _screenHeight = 600;
 int rotationRepeatCounter = 0;
 vector<Rotation>::iterator solutionIter;
 
+long solutionRotateSpeed = 500;
+
 vector<Rotation> userInputRotations;
 vector<Rotation> solutionRotations;
 
@@ -128,73 +130,6 @@ permutationState solveIDDFS(permutationState startState) {
     for (i = 1; !DLS(startState, i); i++) {}
     return startState;
 }
-
-/*
-int checkLayers(State currentState) {
-vector<Face>::iterator faceIter;
-for (faceIter = currentState.faces.begin(); faceIter != currentState.faces.end(); faceIter++) {
-//check colors
-int color = (*faceIter).colors[0][0];
-
-for (int j = 0; j<3; j++) {
-for (int i = 0; i<3; i++) {
-if ((*faceIter).colors[i][j] != color) return false;
-}
-}
-vector<vector<int>> neighborColors;
-
-for (int i = 0; i < 4; i++) {
-vector<int> currentFaceData =(*faceIter).neighbors[i].returnNeighborColors(currentState);
-neighborColors.push_back(currentFaceData);
-}
-
-for (int i = 0; i < 4; i++) {
-color = neighborColors[i][0];
-for (int j = 0; j < 3; j++) {
-if (color != neighborColors[i][j]) return false;
-}
-}
-
-//check neighbors
-}
-return true;
-}
-
-permutationState firstLayer(State currentState) {
-vector<Permutation> p = allPossible();
-
-list<permutationState> stateVector;
-permutationState currentPermutationState;
-vector<Permutation>::iterator pIter;
-currentPermutationState.state = currentState;
-
-do {
-for (pIter = p.begin(); pIter != p.end(); pIter++) {
-permutationState pState = currentPermutationState;
-pState.state.applyPermutation((*pIter));
-pState.permutation.push_back((*pIter));
-if (checkLayers(pState.state)) return pState;
-stateVector.push_back(pState);
-}
-
-currentPermutationState = stateVector.front();
-stateVector.pop_front();
-} while (stateVector.size() > 0);
-}
-
-permutationState sideSolve(permutationState CPS) {
-}
-
-void layerSolve(State currentState){
-//apply BFS and check each face for a correct solution at each node until it finds a solved face
-permutationState layersSolved = firstLayer(currentState);
-
-//apply side swaps in a BFS appraoch until it finds the second layer is built
-permutationState sidesSolved = sideSolve(layersSolved);
-//build a cross on the top layer by applying the cross building moves in BFS approach
-
-//swap corners
-}*/
 
 Permutation ConvertRotationToPermutation(Rotation rotation) {
     Permutation permutation;
@@ -373,27 +308,39 @@ void display()
 
     glRotatef(eyeRotation, 0.0f, 1.0f, 0.0f);
 
-    if (!toggleSolutionRender) {
-        ApplyRotation(userInputRotations);
-    }
-    else {
+    if (toggleSolutionRender) {
         ApplySolutionRotations(*solutionIter);
         ++solutionIter;
+        toggleSolutionRender = true;
     }
+    else {
+        ApplyRotation(userInputRotations);
 
-    //Redundancy checker - clears last 4 entries if they are all the same move
-    if (rotationRepeatCounter == 3)
-    {
-        userInputRotations.pop_back();
-        userInputRotations.pop_back();
-        userInputRotations.pop_back();
-        userInputRotations.pop_back();
-        rotationRepeatCounter = 0;
+        //Redundancy checker - clears last 4 entries if they are all the same move
+        if (rotationRepeatCounter == 3)
+        {
+            userInputRotations.pop_back();
+            userInputRotations.pop_back();
+            userInputRotations.pop_back();
+            userInputRotations.pop_back();
+            rotationRepeatCounter = 0;
+        }
+
+        userInputRotations.push_back(None);
     }
-
-    userInputRotations.push_back(None);
 
     glutSwapBuffers();
+
+    if (toggleSolutionRender && (solutionIter != solutionRotations.end())) {
+        _sleep(solutionRotateSpeed);
+        glutPostRedisplay();
+    }
+    else if (toggleSolutionRender && (solutionIter == solutionRotations.end())) {
+        toggleSolutionRender = false;
+        userInputRotations.clear();
+        userInputRotations.push_back(None);
+        solutionRotations.clear();
+    }
 }
 
 void initialize()
