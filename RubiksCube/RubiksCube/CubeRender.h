@@ -96,7 +96,8 @@ static Tuple3d rotateXAxis(Tuple3d, double);
 static Tuple3d rotateYAxis(Tuple3d, double);
 static Cell rotateNode(Cell, int, double);
 
-void ApplyRotation(Rotation);
+void ApplyRotation(std::vector<Rotation>);
+void ApplySolutionRotations(Rotation);
 void InitializeCube();
 void convertToColor(int);
 void DrawInnerCube();

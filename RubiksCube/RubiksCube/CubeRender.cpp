@@ -1,5 +1,7 @@
 #include "CubeRender.h"
 
+class Permutation;
+
 Tuple3d::Tuple3d()
 {
 }
@@ -117,12 +119,9 @@ static Cell rotateNode(Cell n, int axis, double radians){
     return n;
 }
 
-void ApplyRotation(Rotation specifiedRotation)
+void ApplyRotation(std::vector<Rotation> specifiedRotations)
 {
-    //get all candidates
-    std::vector<Cell> cells;
-
-    switch (specifiedRotation)
+    switch (specifiedRotations[specifiedRotations.size() - 1])
     {
     case Right:
         //Retrieve all faces that have an x at 1
@@ -224,7 +223,7 @@ void ApplyRotation(Rotation specifiedRotation)
             }
         }
         break;
-    case Down:
+    case iDown:
         //Retrieve all faces that have an y at -1
         //  And rotate 90* CW
         for (int i = 0; i < 54; ++i)
@@ -234,7 +233,212 @@ void ApplyRotation(Rotation specifiedRotation)
             }
         }
         break;
+    case Down:
+        //Retrieve all faces that have an y at -1
+        //  And rotate 90* CCW
+        for (int i = 0; i < 54; ++i)
+        {
+            if (cube[i].getLocation().y == -1){
+                cube[i] = rotateNode(cube[i], Y_AXIS, M_PI_2);
+            }
+        }
+        break;
+    case None:
+        specifiedRotations.pop_back();
+    default:
+        break;
+    }
+
+    //Draw black cube inside for aesthetics
+    DrawInnerCube();
+
+    //Redraw cube according to updated movement
+    for (int i = 0; i < 54; ++i)
+    {
+        convertToColor(cube[i].getColor());
+        if (cube[i].getNormal().x == 1)
+        {
+            glBegin(GL_QUADS);
+            glNormal3d(cube[i].getNormal().x, cube[i].getNormal().y, cube[i].getNormal().z);
+            glVertex3d(cube[i].getLocation().x + SPACER, cube[i].getLocation().y - SPACER, cube[i].getLocation().z + SPACER);
+            glVertex3d(cube[i].getLocation().x + SPACER, cube[i].getLocation().y - SPACER, cube[i].getLocation().z - SPACER);
+            glVertex3d(cube[i].getLocation().x + SPACER, cube[i].getLocation().y + SPACER, cube[i].getLocation().z - SPACER);
+            glVertex3d(cube[i].getLocation().x + SPACER, cube[i].getLocation().y + SPACER, cube[i].getLocation().z + SPACER);
+            glEnd();
+            glFlush();
+        }
+        else if (cube[i].getNormal().x == -1)
+        {
+            glBegin(GL_QUADS);
+            glNormal3d(cube[i].getNormal().x, cube[i].getNormal().y, cube[i].getNormal().z);
+            glVertex3d(cube[i].getLocation().x - SPACER, cube[i].getLocation().y - SPACER, cube[i].getLocation().z + SPACER);
+            glVertex3d(cube[i].getLocation().x - SPACER, cube[i].getLocation().y - SPACER, cube[i].getLocation().z - SPACER);
+            glVertex3d(cube[i].getLocation().x - SPACER, cube[i].getLocation().y + SPACER, cube[i].getLocation().z - SPACER);
+            glVertex3d(cube[i].getLocation().x - SPACER, cube[i].getLocation().y + SPACER, cube[i].getLocation().z + SPACER);
+            glEnd();
+            glFlush();
+        }
+        if (cube[i].getNormal().y == 1)
+        {
+            glBegin(GL_QUADS);
+            glNormal3d(cube[i].getNormal().x, cube[i].getNormal().y, cube[i].getNormal().z);
+            glVertex3d(cube[i].getLocation().x - SPACER, cube[i].getLocation().y + SPACER, cube[i].getLocation().z + SPACER);
+            glVertex3d(cube[i].getLocation().x - SPACER, cube[i].getLocation().y + SPACER, cube[i].getLocation().z - SPACER);
+            glVertex3d(cube[i].getLocation().x + SPACER, cube[i].getLocation().y + SPACER, cube[i].getLocation().z - SPACER);
+            glVertex3d(cube[i].getLocation().x + SPACER, cube[i].getLocation().y + SPACER, cube[i].getLocation().z + SPACER);
+            glEnd();
+            glFlush();
+        }
+        else if (cube[i].getNormal().y == -1)
+        {
+            glBegin(GL_QUADS);
+            glNormal3d(cube[i].getNormal().x, cube[i].getNormal().y, cube[i].getNormal().z);
+            glVertex3d(cube[i].getLocation().x - SPACER, cube[i].getLocation().y - SPACER, cube[i].getLocation().z + SPACER);
+            glVertex3d(cube[i].getLocation().x - SPACER, cube[i].getLocation().y - SPACER, cube[i].getLocation().z - SPACER);
+            glVertex3d(cube[i].getLocation().x + SPACER, cube[i].getLocation().y - SPACER, cube[i].getLocation().z - SPACER);
+            glVertex3d(cube[i].getLocation().x + SPACER, cube[i].getLocation().y - SPACER, cube[i].getLocation().z + SPACER);
+            glEnd();
+            glFlush();
+        }
+        if (cube[i].getNormal().z == 1)
+        {
+            glBegin(GL_QUADS);
+            glNormal3d(cube[i].getNormal().x, cube[i].getNormal().y, cube[i].getNormal().z);
+            glVertex3d(cube[i].getLocation().x - SPACER, cube[i].getLocation().y + SPACER, cube[i].getLocation().z + SPACER);
+            glVertex3d(cube[i].getLocation().x - SPACER, cube[i].getLocation().y - SPACER, cube[i].getLocation().z + SPACER);
+            glVertex3d(cube[i].getLocation().x + SPACER, cube[i].getLocation().y - SPACER, cube[i].getLocation().z + SPACER);
+            glVertex3d(cube[i].getLocation().x + SPACER, cube[i].getLocation().y + SPACER, cube[i].getLocation().z + SPACER);
+            glEnd();
+            glFlush();
+        }
+        else if (cube[i].getNormal().z == -1)
+        {
+            glBegin(GL_QUADS);
+            glNormal3d(cube[i].getNormal().x, cube[i].getNormal().y, cube[i].getNormal().z);
+            glVertex3d(cube[i].getLocation().x - SPACER, cube[i].getLocation().y + SPACER, cube[i].getLocation().z - SPACER);
+            glVertex3d(cube[i].getLocation().x - SPACER, cube[i].getLocation().y - SPACER, cube[i].getLocation().z - SPACER);
+            glVertex3d(cube[i].getLocation().x + SPACER, cube[i].getLocation().y - SPACER, cube[i].getLocation().z - SPACER);
+            glVertex3d(cube[i].getLocation().x + SPACER, cube[i].getLocation().y + SPACER, cube[i].getLocation().z - SPACER);
+            glEnd();
+            glFlush();
+        }
+    }
+}
+
+void ApplySolutionRotations(Rotation solutionRotation) {
+    switch (solutionRotation)
+    {
+    case Right:
+        //Retrieve all faces that have an x at 1
+        //  And rotate 90* CW
+        for (int i = 0; i < 54; ++i)
+        {
+            if (cube[i].getLocation().x == 1){
+                cube[i] = rotateNode(cube[i], X_AXIS, -M_PI_2);
+            }
+        }
+        break;
+    case iRight:
+        //Retrieve all faces that have an x at 1
+        //  And rotate 90* CCW
+        for (int i = 0; i < 54; ++i)
+        {
+            if (cube[i].getLocation().x == 1){
+                cube[i] = rotateNode(cube[i], X_AXIS, M_PI_2);
+            }
+        }
+        break;
+    case Left:
+        //Retrieve all faces that have an x at -1
+        //  And rotate 90* CW
+        for (int i = 0; i < 54; ++i)
+        {
+            if (cube[i].getLocation().x == -1){
+                cube[i] = rotateNode(cube[i], X_AXIS, -M_PI_2);
+            }
+        }
+        break;
+    case iLeft:
+        //Retrieve all faces that have an x at -1
+        //  And rotate 90* CCW
+        for (int i = 0; i < 54; ++i)
+        {
+            if (cube[i].getLocation().x == -1){
+                cube[i] = rotateNode(cube[i], X_AXIS, M_PI_2);
+            }
+        }
+        break;
+    case Front:
+        //Retrieve all faces that have an z at 1
+        //  And rotate 90* CW
+        for (int i = 0; i < 54; ++i)
+        {
+            if (cube[i].getLocation().z == 1){
+                cube[i] = rotateNode(cube[i], Z_AXIS, -M_PI_2);
+            }
+        }
+        break;
+    case iFront:
+        //Retrieve all faces that have an z at 1
+        //  And rotate 90* CCW
+        for (int i = 0; i < 54; ++i)
+        {
+            if (cube[i].getLocation().z == 1){
+                cube[i] = rotateNode(cube[i], Z_AXIS, M_PI_2);
+            }
+        }
+        break;
+    case Back:
+        //Retrieve all faces that have an z at -1
+        //  And rotate 90* CW
+        for (int i = 0; i < 54; ++i)
+        {
+            if (cube[i].getLocation().z == -1){
+                cube[i] = rotateNode(cube[i], Z_AXIS, -M_PI_2);
+            }
+        }
+        break;
+    case iBack:
+        //Retrieve all faces that have an z at -1
+        //  And rotate 90* CCW
+        for (int i = 0; i < 54; ++i)
+        {
+            if (cube[i].getLocation().z == -1){
+                cube[i] = rotateNode(cube[i], Z_AXIS, M_PI_2);
+            }
+        }
+        break;
+    case Up:
+        //Retrieve all faces that have an y at 1
+        //  And rotate 90* CW
+        for (int i = 0; i < 54; ++i)
+        {
+            if (cube[i].getLocation().y == 1){
+                cube[i] = rotateNode(cube[i], Y_AXIS, -M_PI_2);
+            }
+        }
+        break;
+    case iUp:
+        //Retrieve all faces that have an y at 1
+        //  And rotate 90* CCW
+        for (int i = 0; i < 54; ++i)
+        {
+            if (cube[i].getLocation().y == 1){
+                cube[i] = rotateNode(cube[i], Y_AXIS, M_PI_2);
+            }
+        }
+        break;
     case iDown:
+        //Retrieve all faces that have an y at -1
+        //  And rotate 90* CW
+        for (int i = 0; i < 54; ++i)
+        {
+            if (cube[i].getLocation().y == -1){
+                cube[i] = rotateNode(cube[i], Y_AXIS, -M_PI_2);
+            }
+        }
+        break;
+    case Down:
         //Retrieve all faces that have an y at -1
         //  And rotate 90* CCW
         for (int i = 0; i < 54; ++i)
